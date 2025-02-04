@@ -21,6 +21,8 @@ class AccountRepositoryTest {
     @BeforeEach
     void setUp() throws SQLException {
         connection = DbUtils.getDataSource().getConnection();
+        System.out.println("현재 연결된 DB: " + connection.getCatalog());
+
         connection.setAutoCommit(false);
 
         Account account1 = new Account(8000,"nhn아카데미-8000",10_0000);
