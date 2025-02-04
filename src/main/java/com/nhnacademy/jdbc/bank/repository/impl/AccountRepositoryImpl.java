@@ -38,6 +38,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public int save(Connection connection, Account account) {
+
         //todo#2 계좌-등록, executeUpdate() 결과를 반환 합니다.
         String sql = "insert into jdbc_account (account_number, name, balance) values(?,?,?)";
 
