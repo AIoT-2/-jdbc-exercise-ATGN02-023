@@ -18,18 +18,22 @@ public class ClubStudent {
     }
 
     public String getStudentId() {
+
         return studentId;
     }
 
     public String getStduentName() {
+
         return stduentName;
     }
 
     public String getClubId() {
+
         return clubId;
     }
 
     public String getClubName() {
+
         return clubName;
     }
 
