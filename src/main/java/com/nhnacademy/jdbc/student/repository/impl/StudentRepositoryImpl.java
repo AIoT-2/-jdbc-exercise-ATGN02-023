@@ -120,14 +120,16 @@ public class StudentRepositoryImpl implements StudentRepository {
         }
     }
 
+    //전체 학생 수 조회.
     @Override
     public long totalCount(Connection connection) {
         //todo#4 totalCount 구현
         long count = 0L;
         try (PreparedStatement statement = connection.prepareStatement("select count(*) from jdbc_students");
+             // 학생 테이블에서 전체 학생 수를 조회.
                ResultSet resultSet = statement.executeQuery();) {
             if (resultSet.next()){
-                return resultSet.getLong(1);
+                return resultSet.getLong(1); //조회된 첫 번쨰 칼럼의 값을 long 타입으로 가져옴.
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -135,13 +137,21 @@ public class StudentRepositoryImpl implements StudentRepository {
         return count;
     }
 
+    // 페이징 처리된 학생 목록 조회.
     @Override
     public Page<Student> findAll(Connection connection, int page, int pageSize) {
         //todo#5 페이징 처리 구현
-        int offset = (page -1) * pageSize;
+        int offset = (page -1) * pageSize; //페이지 오프셋 계산.
+        // 오프셋이란?: 데이터의 시작 지점.
+        // 여러 페이지에 걸쳐 데이터를 나누어 보여줄 때, 현재 페이지에서 데이터를 몇번째부터
+        //가져올지를 지정하는 값.
+        // 페이지 크기가 10일때, 1페이지는 0번 인덱스부터 9번 인덱스까지 데이터 가져오고,
+        // 2페이지는 10번 인덱스부터 19번 인덱스까지 가져옴.
+        // 이렇게 offset은 각 페이지가 데이터를 가져올 시작지점을 나타내는 값.
+        //ex) 1 페이지(10개 데이터) offset = 0; 2페이지(10개 데이터):offset=10
 
         try (PreparedStatement statement = connection.prepareStatement(
-                "select * from jdbc_students order by id desclimit ?, ?");){
+                "select * from jdbc_students order by id desc limit ?, ?");){
             statement.setInt(1, offset);
             statement.setInt(2, pageSize);
 
